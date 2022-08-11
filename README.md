@@ -1,2 +1,2 @@
 # sobos
-StayOut board on steroids
+SO board on steroids
