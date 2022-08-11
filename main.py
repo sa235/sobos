@@ -1,7 +1,14 @@
+from asyncio.windows_events import NULL
 import imp
 import time
 import mouse
 from PIL import ImageGrab
+from PIL import ImageChops
+
+
+
+def equal(im1, im2):
+    return ImageChops.difference(im1, im2).getbbox() is None
 
 # dispaly resolution 1920x1080
 def mouse_on_right_top_corn():
@@ -41,10 +48,20 @@ def screenshot_board_table():
 
 
 def main():
+    enable_next_button_img = None
     while mouse_on_next():
         click_next()
+        if enable_next_button_img is None:
+            enable_next_button_img = ImageGrab.grab(bbox=(410, 1010, 436, 1023))
+            #active_next_button_img.show()
+        
+        disable_next_button_img = ImageGrab.grab(bbox=(410, 1010, 436, 1023))    
         screenshot_board_table()
-    
+
+        if not equal(enable_next_button_img, disable_next_button_img):
+            print('scan complete')
+            break
+
     print('scan end')
 
 
